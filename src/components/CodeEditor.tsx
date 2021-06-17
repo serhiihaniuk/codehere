@@ -3,10 +3,12 @@ import Editor from '@monaco-editor/react'
 
 interface CodeEditorProps {
     initialValue?: string
+    language: string
     onChange(value: string): void
 }
 const CodeEditor: React.FC<CodeEditorProps> = ({
     initialValue = '//shift+alt+f to format',
+    language,
     onChange,
 }) => {
 
@@ -20,10 +22,10 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
         <Editor
             onChange={handleEditorChange}
             value={initialValue}
-            height='300px'
-            width='33%'
+            height='100%'
+            width='100%'
             theme='vs-dark'
-            language='javascript'
+            language={language}
             options={{
                 wordWrap: 'on',
                 tabSize: 2,

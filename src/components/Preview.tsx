@@ -1,34 +1,57 @@
 import React, { useRef, useEffect } from 'react'
 
 interface PreviewProps {
-    code?: string
+    codeJS?: string
+    codeHTML?: string
+    codeCSS?: string
 }
 
-const html = `
+const Preview: React.FC<PreviewProps> = ({ codeJS, codeCSS, codeHTML }) => {
+    const html = `
 <html>
-  <head></head>
+  <head>
+    <style>
+    body {
+      color: rgba(0, 0, 0, 0.87)
+      ;
+    }
+    ${codeCSS}
+    </style>
+  </head>
   <body>
-    <div id="root"></div>
+    <div id="root">${codeHTML}</div>
     <script>
       window.addEventListener('message', (event) => {
-        eval(event.data);
+          try {
+            eval(event.data);
+          } catch (err) {
+            document.getElementById('root').innerHTML = err
+          }
       }, false);
     </script>
   </body>
 </html>
 `
-
-const Preview: React.FC<PreviewProps> = ({ code }) => {
     const iframe = useRef<any>()
     useEffect(() => {
         iframe.current.srcdoc = html
         setTimeout(() => {
-            iframe.current.contentWindow.postMessage(code, '*')
+            iframe.current.contentWindow.postMessage(codeJS, '*')
         }, 25)
-    }, [code])
+    }, [codeJS, codeHTML, codeCSS, html])
 
     return (
-        <iframe title='q' ref={iframe} sandbox='allow-scripts' srcDoc={html} />
+        <iframe
+            style={{
+                width: '100%',
+                flexGrow: 1,
+                backgroundColor: 'rgba(255, 255, 255, 0.8)',
+            }}
+            title='q'
+            ref={iframe}
+            sandbox='allow-scripts'
+            srcDoc={html}
+        />
     )
 }
 
