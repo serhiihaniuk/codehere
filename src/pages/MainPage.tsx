@@ -1,10 +1,12 @@
+import { Container } from '@material-ui/core'
+import Menu from '../components/Menu'
 import React from 'react'
 
 const MainPage = () => {
     return (
-        <div>
-            
-        </div>
+        <Container >
+            <Menu />
+        </Container>
     )
 }
 

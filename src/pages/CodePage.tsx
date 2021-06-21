@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
+
 import CodeEditor from '../components/CodeEditor'
 import Preview from '../components/Preview'
 import build from '../bundler'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
+
+import { htmlDefault, cssDefault, reactDefault } from '../utils/defaultCode'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -28,11 +32,23 @@ interface Code {
 }
 
 const CodePage: React.FC = () => {
+    const defaultCode: Code = {
+        js: '//JavaScript',
+        css: cssDefault,
+        html: '<! -- HTML -->',
+    }
+    const location = useLocation()
+    if (location.pathname === '/vanillajs') {
+        defaultCode.html = htmlDefault
+    } else {
+        defaultCode.js = reactDefault
+    }
     const classes = useStyles()
-    const [inputJS, setInputJS] = useState('')
-    const [inputHTML, setInputHTML] = useState('')
-    const [inputCSS, setInputCSS] = useState('')
-    const [code, setCode] = useState<Code>({ js: '', css: '', html: '' })
+
+    const [inputHTML, setInputHTML] = useState(defaultCode.html)
+    const [inputCSS, setInputCSS] = useState(defaultCode.css)
+    const [inputJS, setInputJS] = useState(defaultCode.js)
+    const [code, setCode] = useState<Code>(defaultCode)
 
     const clickHandler = async () => {
         const outputJS = await build(inputJS)
@@ -68,7 +84,7 @@ const CodePage: React.FC = () => {
             >
                 <Grid className={classes.cell} item xs={3}>
                     <CodeEditor
-                        initialValue={'<! -- HTML -->'}
+                        initialValue={defaultCode.html}
                         onChange={value => {
                             setInputHTML(value)
                         }}
@@ -77,7 +93,7 @@ const CodePage: React.FC = () => {
                 </Grid>
                 <Grid className={classes.cell} item xs={3}>
                     <CodeEditor
-                        initialValue={'/*CSS*/'}
+                        initialValue={defaultCode.css}
                         onChange={value => {
                             setInputCSS(value)
                         }}
@@ -86,7 +102,7 @@ const CodePage: React.FC = () => {
                 </Grid>
                 <Grid className={classes.cell} item xs={6}>
                     <CodeEditor
-                        initialValue={'//JavaScript'}
+                        initialValue={defaultCode.js}
                         onChange={value => {
                             setInputJS(value)
                         }}

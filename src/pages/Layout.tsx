@@ -1,5 +1,8 @@
 import React from 'react'
+import { Switch, Route, Link } from 'react-router-dom'
+
 import CodePage from './CodePage'
+import MainPage from './MainPage'
 // MUI
 import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
@@ -24,8 +27,7 @@ const useStyles = makeStyles(theme => ({
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        
-    }
+    },
 }))
 
 const Layout = () => {
@@ -50,7 +52,12 @@ const Layout = () => {
                 </Toolbar>
             </AppBar>
 
-            <CodePage />
+            <Switch>
+                <Route path='/vanillajs' component={CodePage} />
+                <Route path='/react' component={CodePage} />
+                <Route path='/codehere'  component={MainPage} />
+                <Route path='/'  component={MainPage} />
+            </Switch>
         </div>
     )
 }

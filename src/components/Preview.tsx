@@ -11,6 +11,9 @@ const Preview: React.FC<PreviewProps> = ({ codeJS, codeCSS, codeHTML }) => {
 <html>
   <head>
     <style>
+    .animated {
+      transform: rotate(45deg);
+    }
     body {
       color: rgba(0, 0, 0, 0.87)
       ;
@@ -46,6 +49,7 @@ const Preview: React.FC<PreviewProps> = ({ codeJS, codeCSS, codeHTML }) => {
                 width: '100%',
                 flexGrow: 1,
                 backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                minHeight: 500
             }}
             title='q'
             ref={iframe}
