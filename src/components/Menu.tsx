@@ -11,7 +11,8 @@ import { NavLink } from 'react-router-dom'
 
 const useStyles = makeStyles({
     root: {
-        width: 700,
+        width: '100%',
+        maxWidth: 700,
         margin: '50px auto',
     },
 })
@@ -19,39 +20,35 @@ const Menu = () => {
     const classes = useStyles()
 
     return (
-        <Paper className={classes.root}>
-            <MenuList>
-                <MenuItem>
-                    <NavLink to='/vanillajs'>
-                        <ListItemIcon>
-                            <DoubleArrowSharpIcon fontSize='small' />
-                        </ListItemIcon>
-                        <Typography variant='inherit'>
-                            Blank template
-                        </Typography>
-                    </NavLink>
-                </MenuItem>
+        <>
+            {' '}
+            <Paper className={classes.root}>
+                <MenuList>
+                    <MenuItem>
+                        <NavLink to="/vanillajs">
+                            <ListItemIcon>
+                                <DoubleArrowSharpIcon fontSize="small" />
+                            </ListItemIcon>
+                            <Typography variant="inherit">
+                                Blank template
+                            </Typography>
+                        </NavLink>
+                    </MenuItem>
 
-                <MenuItem>
-                    <NavLink to='/react'>
-                        <ListItemIcon>
-                            <DoubleArrowSharpIcon fontSize='small' />
-                        </ListItemIcon>
-                        <Typography variant='inherit'>
-                            React template
-                        </Typography>{' '}
-                    </NavLink>
-                </MenuItem>
-                <MenuItem>
-                    <ListItemIcon>
-                        <DoubleArrowSharpIcon fontSize='small' />
-                    </ListItemIcon>
-                    <Typography variant='inherit' noWrap>
-                        Demo
-                    </Typography>
-                </MenuItem>
-            </MenuList>
-        </Paper>
+                    <MenuItem>
+                        <NavLink to="/react">
+                            <ListItemIcon>
+                                <DoubleArrowSharpIcon fontSize="small" />
+                            </ListItemIcon>
+                            <Typography variant="inherit">
+                                React template
+                            </Typography>{' '}
+                        </NavLink>
+                    </MenuItem>
+                </MenuList>
+            </Paper>
+            <Paper className={classes.root}></Paper>
+        </>
     )
 }
 

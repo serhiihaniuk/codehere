@@ -11,12 +11,13 @@ import { htmlDefault, cssDefault, reactDefault } from '../utils/defaultCode'
 
 const useStyles = makeStyles(theme => ({
     root: {
-        height: 300,
+        minHeight: 300,
     },
     cell: {
         borderColor: theme.palette.primary.main,
         border: '3px solid',
         flex: '1 1 100%',
+        minHeight: 300
     },
     preview: {
         flexGrow: 1,
@@ -82,7 +83,7 @@ const CodePage: React.FC = () => {
                 direction='row'
                 justify='center'
             >
-                <Grid className={classes.cell} item xs={3}>
+                <Grid className={classes.cell} item xs={12} md={3}>
                     <CodeEditor
                         initialValue={defaultCode.html}
                         onChange={value => {
@@ -91,7 +92,7 @@ const CodePage: React.FC = () => {
                         language='html'
                     />
                 </Grid>
-                <Grid className={classes.cell} item xs={3}>
+                <Grid className={classes.cell} item xs={12} md={3}>
                     <CodeEditor
                         initialValue={defaultCode.css}
                         onChange={value => {
@@ -100,7 +101,7 @@ const CodePage: React.FC = () => {
                         language='css'
                     />
                 </Grid>
-                <Grid className={classes.cell} item xs={6}>
+                <Grid className={classes.cell} item xs={12} md={6}>
                     <CodeEditor
                         initialValue={defaultCode.js}
                         onChange={value => {
