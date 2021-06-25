@@ -5,26 +5,26 @@ interface CodeEditorProps {
     initialValue?: string
     language: string
     onChange(value: string): void
+    height: boolean | undefined
 }
 const CodeEditor: React.FC<CodeEditorProps> = ({
     initialValue = '//shift+alt+f to format',
     language,
+    height,
     onChange,
 }) => {
-
     function handleEditorChange(value: string | undefined) {
         if (value) {
             onChange(value)
         }
     }
     return (
-
         <Editor
             onChange={handleEditorChange}
             value={initialValue}
-            height='100%'
-            width='100%'
-            theme='vs-dark'
+            height={height ? '350px' : '100%'}
+            width="100%"
+            theme="vs-dark"
             language={language}
             options={{
                 wordWrap: 'on',
@@ -38,8 +38,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
                 fontSize: 16,
                 scrollBeyondLastLine: false,
                 automaticLayout: true,
-                fontFamily: 'JetBrains Mono'
-                
+                fontFamily: 'JetBrains Mono',
             }}
         />
     )

@@ -5,11 +5,7 @@ import CodePage from './CodePage'
 import MainPage from './MainPage'
 // MUI
 import { makeStyles } from '@material-ui/core/styles'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
-import IconButton from '@material-ui/core/IconButton'
-import MenuIcon from '@material-ui/icons/Menu'
+import Header from '../components/Header'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -34,22 +30,7 @@ const Layout = () => {
 
     return (
         <div className={classes.wrapper}>
-            <AppBar position="static">
-                <Toolbar>
-                    <IconButton
-                        edge="start"
-                        className={classes.menuButton}
-                        color="inherit"
-                        aria-label="menu"
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" className={classes.title}>
-                        CodeHere
-                    </Typography>
-                </Toolbar>
-            </AppBar>
-
+            <Header />
             <Switch>
                 <Route path="/vanillajs" component={CodePage} />
                 <Route path="/react" component={CodePage} />

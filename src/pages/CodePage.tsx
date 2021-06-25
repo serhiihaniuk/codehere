@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import CodeEditor from '../components/CodeEditor'
@@ -8,16 +8,14 @@ import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { htmlDefault, cssDefault, reactDefault } from '../utils/defaultCode'
+import { PreviewContext } from '../Context/Context'
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        minHeight: 300,
-    },
+const useStyles = makeStyles((theme) => ({
     cell: {
         borderColor: theme.palette.primary.main,
         border: '3px solid',
         flex: '1 1 100%',
-        minHeight: 300
+        minHeight: 350,
     },
     preview: {
         flexGrow: 1,
@@ -33,6 +31,7 @@ interface Code {
 }
 
 const CodePage: React.FC = () => {
+    const { preview } = useContext(PreviewContext)
     const defaultCode: Code = {
         js: '//JavaScript',
         css: cssDefault,
@@ -51,15 +50,6 @@ const CodePage: React.FC = () => {
     const [inputJS, setInputJS] = useState(defaultCode.js)
     const [code, setCode] = useState<Code>(defaultCode)
 
-    const clickHandler = async () => {
-        const outputJS = await build(inputJS)
-        setCode({
-            js: outputJS,
-            css: inputCSS,
-            html: inputHTML,
-        })
-    }
-
     useEffect(() => {
         const timer = setTimeout(async () => {
             const outputJS = await build(inputJS)
@@ -76,54 +66,57 @@ const CodePage: React.FC = () => {
     }, [inputJS, inputCSS, inputHTML])
 
     return (
-        <div className='Page-Wrapper'>
+        <div className="Page-Wrapper">
             <Grid
-                className={classes.root}
+                style={preview ? {} : { flexGrow: 1 }}
                 container
-                direction='row'
-                justify='center'
+                direction="row"
+                justify="center"
             >
+                {location.pathname !== '/react' && (
+                    <Grid className={classes.cell} item xs={12} md={3}>
+                        <CodeEditor
+                            height={preview}
+                            initialValue={defaultCode.html}
+                            onChange={(value) => {
+                                setInputHTML(value)
+                            }}
+                            language="html"
+                        />
+                    </Grid>
+                )}
                 <Grid className={classes.cell} item xs={12} md={3}>
                     <CodeEditor
-                        initialValue={defaultCode.html}
-                        onChange={value => {
-                            setInputHTML(value)
-                        }}
-                        language='html'
-                    />
-                </Grid>
-                <Grid className={classes.cell} item xs={12} md={3}>
-                    <CodeEditor
+                        height={preview}
                         initialValue={defaultCode.css}
-                        onChange={value => {
+                        onChange={(value) => {
                             setInputCSS(value)
                         }}
-                        language='css'
+                        language="css"
                     />
                 </Grid>
                 <Grid className={classes.cell} item xs={12} md={6}>
                     <CodeEditor
+                        height={preview}
                         initialValue={defaultCode.js}
-                        onChange={value => {
+                        onChange={(value) => {
                             setInputJS(value)
                         }}
-                        language='javascript'
+                        language="javascript"
                     />
                 </Grid>
             </Grid>
-            <Grid className={classes.preview} container direction='column'>
-                <Grid className={classes.preview} item xs={12}>
-                    <Preview
-                        codeJS={code.js}
-                        codeCSS={code.css}
-                        codeHTML={code.html}
-                    />
+            {preview && (
+                <Grid className={classes.preview} container direction="column">
+                    <Grid className={classes.preview} item xs={12}>
+                        <Preview
+                            codeJS={code.js}
+                            codeCSS={code.css}
+                            codeHTML={code.html}
+                        />
+                    </Grid>
                 </Grid>
-            </Grid>
-
-            <div>
-                <button onClick={clickHandler}>Submit</button>
-            </div>
+            )}
         </div>
     )
 }
